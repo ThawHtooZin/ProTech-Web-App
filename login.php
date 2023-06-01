@@ -1,3 +1,4 @@
+<?php include 'config/connect.php'; ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -12,12 +13,34 @@
         <div class="card-header text-center">
           <h3>Login into your Account</h3>
         </div>
+        <?php
+        if($_POST){
+          if(empty($_POST['email']) || empty($_POST['email'])){
+            if(empty($_POST['email'])){
+              $emailerror = "The Email field is required";
+            }
+            if(empty($_POST['password'])){
+              $passerror = "The Password field is required";
+            }
+          }else{
+            $email = $_POST['email'];
+            $stmt = $pdo->prepare("SELECT * FROM users WHERE email='$email'");
+            $stmt->execute();
+            $data = $stmt->fetch(PDO::FETCH_ASSOC);
+            if($data['password'] == $_POST['password']){
+              echo "<script>alert('Login Successful!')</script>";
+            }
+          }
+        }
+         ?>
         <div class="card-body">
           <form action="login.php" method="post">
-            <label>Username</label>
-            <input type="text" name="" class="form-control">
+            <label>Email</label>
+            <input type="email" name="email" class="form-control">
+            <p class="text-danger"><?php if(!empty($emailerror)){echo $emailerror;} ?></p>
             <label>Password</label>
-            <input type="text" name="" class="form-control">
+            <input type="password" name="password" class="form-control">
+            <p class="text-danger"><?php if(!empty($passerror)){echo $passerror;} ?></p>
         </div>
         <div class="card-footer">
           <div class="row">
