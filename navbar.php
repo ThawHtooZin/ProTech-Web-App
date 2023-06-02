@@ -19,6 +19,9 @@
           <li class="nav-item">
             <a class="nav-link" href="logout.php"><?php echo $_SESSION['username']; ?></a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="admin/index.php">Dashboard</a>
+          </li>
           <?php
         }else{
           ?>
