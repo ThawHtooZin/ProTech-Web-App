@@ -1,4 +1,6 @@
-<?php include 'config/connect.php'; ?>
+<?php
+session_start();
+ include 'config/connect.php'; ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -15,7 +17,7 @@
         </div>
         <?php
         if($_POST){
-          if(empty($_POST['email']) || empty($_POST['email'])){
+          if(empty($_POST['email']) || empty($_POST['password'])){
             if(empty($_POST['email'])){
               $emailerror = "The Email field is required";
             }
@@ -28,7 +30,13 @@
             $stmt->execute();
             $data = $stmt->fetch(PDO::FETCH_ASSOC);
             if($data['password'] == $_POST['password']){
-              echo "<script>alert('Login Successful!')</script>";
+              $_SESSION['username'] = $data['username'];
+              $_SESSION['logged_in'] = true;
+              if($data['role'] == "admin"){
+                echo "<script>alert('Login Successful!');window.location.href='admin/index.php'</script>";
+              }else{
+                echo "<script>alert('Login Successful!');window.location.href='index.php'</script>";
+              }
             }
           }
         }

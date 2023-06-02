@@ -1,6 +1,10 @@
+<?php
+session_start();
+include 'config/connect.php';
+ ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
+<head>
     <meta charset="utf-8">
     <title></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
@@ -8,7 +12,7 @@
   <style media="screen">
     .first-container{
       padding-top: 200px;
-      background-image: url("image/background.jpg");
+      background-image: url("image/background2.jpg");
       background-size: cover;
       padding-bottom: 200px;
     }

@@ -1,3 +1,4 @@
+<?php include 'config/connect.php'; ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -13,13 +14,40 @@
           <h3>Register an account</h3>
         </div>
         <div class="card-body">
-          <form action="login.php" method="post">
+          <?php
+          if($_POST){
+            if(empty($_POST['username']) || empty($_POST['email']) || empty($_POST['password'])){
+              if(empty($_POST['username'])){
+                $usererror = "The Username field is required";
+              }
+              if(empty($_POST['email'])){
+                $emailerror = "The Email field is required";
+              }
+              if(empty($_POST['password'])){
+                $passerror = "The Password field is required";
+              }
+            }else{
+              $username = $_POST['username'];
+              $email = $_POST['email'];
+              $password = $_POST['password'];
+              $stmt = $pdo->prepare("INSERT INTO users(username,email,password) VALUES('$username','$email','$password')");
+              $data = $stmt->execute();
+              if($data){
+                echo "<script>alert('Register successful!');windows.location.href='login.php'</script>";
+              }
+            }
+          }
+          ?>
+          <form action="register.php" method="post">
             <label>Username</label>
-            <input type="text" name="" class="form-control" placeholder="Your Username">
+            <input type="text" name="username" class="form-control" placeholder="Your Username">
+            <p class="text-center"><?php if(!empty($usererror)){echo $usererror;} ?></p>
             <label>Email</label>
             <input type="email" name="email" class="form-control" placeholder="Your Email">
+            <p class="text-center"><?php if(!empty($emailerror)){echo $emailerror;} ?></p>
             <label>Password</label>
-            <input type="text" name="" class="form-control" placeholder="Your Password">
+            <input type="text" name="password" class="form-control" placeholder="Your Password">
+            <p class="text-center"><?php if(!empty($passerror)){echo $passerror;} ?></p>
         </div>
         <div class="card-footer">
           <div class="row">

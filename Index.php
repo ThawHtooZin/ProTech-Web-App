@@ -1,3 +1,7 @@
+<?php
+session_start();
+include 'config/connect.php';
+?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -37,7 +41,7 @@
                 <p>Price : 50000ks</p>
               </div>
               <div class="card-footer">
-                <a href="course.php.php" class="btn btn-success">Check More</a>
+                <a href="course.php" class="btn btn-success">Check More</a>
               </div>
             </div>
           </div>
@@ -52,7 +56,7 @@
                 <p>Price : 50000ks</p>
               </div>
               <div class="card-footer">
-                <a href="course.php.php" class="btn btn-success">Check More</a>
+                <a href="course.php" class="btn btn-success">Check More</a>
               </div>
             </div>
           </div>
@@ -67,7 +71,7 @@
                 <p>Price : 50000ks</p>
               </div>
               <div class="card-footer">
-                <a href="course.php.php" class="btn btn-success">Check More</a>
+                <a href="course.php" class="btn btn-success">Check More</a>
               </div>
             </div>
           </div>
