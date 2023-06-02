@@ -55,21 +55,21 @@
           <a href="#" class="nav-link active">
             <i class="far fa-circle nav-icon"></i>
             <p>
-              Restaurant
+              Course
               <i class="right fas fa-angle-left"></i>
             </p>
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="restaurant_admin.php" class="nav-link active">
+              <a href="course_admin.php" class="nav-link active">
                 <i class="bi bi-shop"></i>
-                <p>Restaurants</p>
+                <p>Course</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="restaurant_category_admin.php" class="nav-link active">
+              <a href="course_category_admin.php" class="nav-link active">
                 <i class="bi bi-shop-window"></i>
-                <p>Restaurant Categories</p>
+                <p>Course Categories</p>
               </a>
             </li>
           </ul>

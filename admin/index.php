@@ -73,7 +73,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="row">
                   <div class="col-9">
                     <h3></h3>
-                    <p>Restaurants</p>
+                    <p>Users</p>
                   </div>
                   <div class="col-3">
                     <div style="font-size:50px;">
@@ -96,7 +96,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="row">
                   <div class="col-9">
                     <h3></h3>
-                    <p>Dishes</p>
+                    <p>Courses</p>
                   </div>
                   <div class="col-3">
                     <div style="font-size:50px;">
@@ -119,7 +119,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="row">
                   <div class="col-9">
                     <h3></h3>
-                    <p>User</p>
+                    <p>Blog</p>
                   </div>
                   <div class="col-3">
                     <div style="font-size:50px;">
@@ -142,7 +142,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="row">
                   <div class="col-9">
                     <h3></h3>
-                    <p>Order</p>
+                    <p>Articles</p>
                   </div>
                   <div class="col-3">
                     <div style="font-size:50px;">
