@@ -30,51 +30,30 @@ include 'config/connect.php';
         <h1 class="text-center">Courses</h1>
         <br>
         <div class="row">
-          <div class="col">
-            <div class="card text-center">
-              <div class="card-header">
-                <h3>Basic Course</h3>
-              </div>
-              <div class="card-body">
-                <img src="image/datas/basic_course.jpg" alt="" width="100%"><br><br>
-                <p>Description: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                <p>Price : 50000ks</p>
-              </div>
-              <div class="card-footer">
-                <a href="course.php" class="btn btn-success">Check More</a>
-              </div>
+          <?php
+          $stmt = $pdo->prepare("SELECT * FROM course");
+          $stmt->execute();
+          $datas = $stmt->fetchall();
+          foreach ($datas as $data) {
+          ?>
+          <!-- card -->
+          <div class="card text-center" style="width:33%;">
+            <div class="card-header">
+              <h3><?php echo $data['name']; ?></h3>
+            </div>
+            <div class="card-body">
+              <img src="image/datas/basic_course.jpg" alt="" width="100%"><br><br>
+              <p>Description: <?php echo $data['description']; ?></p>
+              <p>Price : <?php echo $data['price']; ?></p>
+            </div>
+            <div class="card-footer">
+              <a href="course_detail.php?id=<?php echo $data['id']; ?>" class="btn btn-success">Check More</a>
             </div>
           </div>
-          <div class="col">
-            <div class="card text-center">
-              <div class="card-header">
-                <h3>Basic Course</h3>
-              </div>
-              <div class="card-body">
-                <img src="image/datas/basic_course.jpg" alt="" width="100%"><br><br>
-                <p>Description: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                <p>Price : 50000ks</p>
-              </div>
-              <div class="card-footer">
-                <a href="course.php" class="btn btn-success">Check More</a>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card text-center">
-              <div class="card-header">
-                <h3>Basic Course</h3>
-              </div>
-              <div class="card-body">
-                <img src="image/datas/basic_course.jpg" alt="" width="100%"><br><br>
-                <p>Description: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                <p>Price : 50000ks</p>
-              </div>
-              <div class="card-footer">
-                <a href="course.php" class="btn btn-success">Check More</a>
-              </div>
-            </div>
-          </div>
+          <!-- card -->
+          <?php
+          }
+          ?>
         </div>
         <br><br><br>
         <div class="text-center">

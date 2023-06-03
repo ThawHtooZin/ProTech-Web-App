@@ -32,6 +32,7 @@ session_start();
             if($data['password'] == $_POST['password']){
               $_SESSION['username'] = $data['username'];
               $_SESSION['logged_in'] = true;
+              $_SESSION['role'] = 'user';
               if($data['role'] == "admin"){
                 $_SESSION['role'] = 'admin';
                 echo "<script>alert('Login Successful!');window.location.href='admin/index.php'</script>";
