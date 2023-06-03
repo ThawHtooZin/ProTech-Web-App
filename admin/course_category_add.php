@@ -12,7 +12,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Restaurant Dashboard</title>
+  <title>ProTech Dashboard</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -35,7 +35,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         $stmt = $pdo->prepare("INSERT INTO course_category(category_name) VALUES('$category_name')");
         $data = $stmt->execute();
         if($data){
-          echo "<script>alert('Restaurant Category created successfully!'); window.location.href='index.php';</script>";
+          echo "<script>alert('Course Category created successfully!'); window.location.href='index.php';</script>";
         }else{
           echo "<script>alert('Sorry, there was an error!'); window.location.href='index.php';</script>";
         }
