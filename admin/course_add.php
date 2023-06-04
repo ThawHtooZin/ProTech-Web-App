@@ -25,9 +25,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <body class="hold-transition sidebar-mini">
   <?php
   if($_POST){
-    if(empty($_POST['name']) || empty($_POST['description']) || empty($_POST['price'])){
+    if(empty($_POST['name']) || empty($_FILES['image']['name']) || empty($_POST['description']) || empty($_POST['price'])){
       if(empty($_POST['name'])){
         $nameerror = true;
+      }
+      if(empty($_FILES['image']['name'])){
+        $imgerror = true;
       }
       if(empty($_POST['description'])){
         $descerror = true;
@@ -37,11 +40,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
       }
 
     }else{
+        $file = 'images/course_images/'.($_FILES['image']['name']);
+        $image = $_FILES['image']['name'];
+        move_uploaded_file($_FILES['image']['tmp_name'], $file);
         $name = $_POST['name'];
         $description= $_POST['description'];
         $price = $_POST['price'];
 
-        $stmt = $pdo->prepare("INSERT INTO course(name, description, price) VALUES('$name', '$description', '$price')");
+        $stmt = $pdo->prepare("INSERT INTO course(name, image, description, price) VALUES('$name', '$image', '$description', '$price')");
         $data = $stmt->execute();
         if($data){
           echo "<script>alert('Course created successfully!'); window.location.href='index.php';</script>";
@@ -77,12 +83,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </div>
         <!-- /.card-header -->
         <!-- form start -->
-          <form action="course_add.php" method="post">
+          <form action="course_add.php" method="post" enctype="multipart/form-data">
             <input type="hidden" name="_token" value="<?php echo $_SESSION['_token']; ?>">
             <div class="card-body">
               <div class="form-group">
                 <label for="">Course Name</label>
                 <input type="text" class="form-control <?php if($nameerror === true){echo 'is-invalid';} ?>" placeholder="Enter Name" name="name">
+              </div>
+              <div class="form-group">
+                <label for="">Image</label>
+                <input type="file" class="form-control <?php if($imgerror === true){echo 'is-invalid';} ?>" placeholder="Enter Image" name="image">
               </div>
               <div class="form-group">
                 <label for="">Description</label>

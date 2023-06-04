@@ -77,7 +77,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </div>
                   <div class="col-3">
                     <div style="font-size:50px;">
-                      <i class="bi bi-shop"></i>
+                      <i class="bi bi-person-circle"></i>
                     </div>
                   </div>
                 </div>
@@ -100,7 +100,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </div>
                   <div class="col-3">
                     <div style="font-size:50px;">
-                      <i class="bi bi-cup-hot-fill"></i>
+                      <i class="bi bi-cup-hot"></i>
                     </div>
                   </div>
                 </div>
@@ -123,7 +123,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </div>
                   <div class="col-3">
                     <div style="font-size:50px;">
-                      <i class="bi bi-person-circle"></i>
+                      <i class="bi bi-card-checklist"></i>
                     </div>
                   </div>
                 </div>
@@ -146,7 +146,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </div>
                   <div class="col-3">
                     <div style="font-size:50px;">
-                      <i class="bi bi-card-checklist"></i>
+                      <i class="bi bi-book"></i>
                     </div>
                   </div>
                 </div>

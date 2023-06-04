@@ -64,6 +64,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <tr>
             <th>#</th>
             <th>Course Name</th>
+            <th>Course Image</th>
             <th>Description</th>
             <th>price</th>
             <th>Category</th>
@@ -80,6 +81,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <tr>
               <td><?php echo $data['id']; ?></td>
               <td><?php echo $data['name']; ?></td>
+              <td><img src="images/course_images/<?php echo $data['image']; ?>" alt="" width="100%"></td>
               <td><?php echo $data['description']; ?></td>
               <td><?php echo $data['price']; ?></td>
               <td><?php echo $categoryid['category_name']; ?></td>
