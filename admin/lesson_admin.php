@@ -23,7 +23,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 </head>
 <body class="hold-transition sidebar-mini">
   <?php
-  $stmt = $pdo->prepare("SELECT * FROM course");
+  $stmt = $pdo->prepare("SELECT * FROM lessons ");
   $stmt->execute();
   $datas = $stmt->fetchall();
   ?>
@@ -53,7 +53,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <h3 class="card-title">Restaurant Admin Page</h3>
           </div>
           <div class="col">
-            <h3 class="card-title" style="float:right;"><a href="course_add.php" class="btn btn-success"> + ADD</a></h3>
+            <h3 class="card-title" style="float:right;"><a href="lesson_add.php" class="btn btn-success"> + ADD</a></h3>
           </div>
         </div>
       </div>
@@ -63,31 +63,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <thead>
           <tr>
             <th>#</th>
-            <th>Course Name</th>
-            <th>Course Image</th>
+            <th>Lesson Name</th>
+            <th>Video_Previdew</th>
             <th>Description</th>
-            <th>price</th>
-            <th>Category</th>
           </tr>
           </thead>
           <tbody>
             <?php
             foreach ($datas as $data) {
-              $id = $data['category_id'];
-              $stmts = $pdo->prepare("SELECT * FROM course_category WHERE id=$id");
-              $stmts->execute();
-              $categoryid = $stmts->fetch(PDO::FETCH_ASSOC);
             ?>
             <tr>
               <td><?php echo $data['id']; ?></td>
-              <td><?php echo $data['name']; ?></td>
-              <td><img src="images/course_images/<?php echo $data['image']; ?>" alt="" width="100%"></td>
+              <td><?php echo $data['lesson_name']; ?></td>
+              <td>
+                <video width="320" height="240" controls>
+                  <source src="Videos/<?php echo $data['lesson_video_url']; ?>" type="video/mp4">
+                </video>
+              </td>
               <td><?php echo $data['description']; ?></td>
-              <td><?php echo $data['price']; ?></td>
-              <td><?php echo $categoryid['category_name']; ?></td>
               <th>
-                <a href="course_update.php?id=<?php echo $data['id']; ?>" class="btn btn-warning">Update</a>
-                <a href="course_delete.php?id=<?php echo $data['id']; ?>" class="btn btn-danger">Delete</a>
+                <a href="lesson_update.php?id=<?php echo $data['id']; ?>" class="btn btn-warning">Update</a>
+                <a href="lesson_delete.php?id=<?php echo $data['id']; ?>" class="btn btn-danger">Delete</a>
               </th>
             </tr>
             <?php

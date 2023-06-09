@@ -75,10 +75,10 @@
           </ul>
         </li>
         <li class="nav-item">
-          <a href="dishes_admin.php" class="nav-link">
+          <a href="lesson_admin.php" class="nav-link">
             <i class="bi bi-cup-hot-fill"></i>
             <p>
-              Dishes
+              Lessons
             </p>
           </a>
         </li>

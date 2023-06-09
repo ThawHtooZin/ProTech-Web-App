@@ -42,7 +42,7 @@ include 'config/connect.php';
               <h3><?php echo $data['name']; ?></h3>
             </div>
             <div class="card-body">
-              <img src="image/datas/basic_course.jpg" alt="" width="100%"><br><br>
+              <img src="admin/images/course_images/<?php echo $data['image']; ?>" alt="" width="100%"><br><br>
               <p>Description: <?php echo $data['description']; ?></p>
               <p>Price : <?php echo $data['price']; ?></p>
             </div>

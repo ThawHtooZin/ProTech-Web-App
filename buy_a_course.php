@@ -53,7 +53,6 @@ include 'config/connect.php';
             if(isset($_POST['btn'])){
               if(empty($_FILES['image']['name'])){
                 $imgerror = "The Image field is required";
-                echo "okno";
               }else{
                 $file = 'admin/images/checks/'.($_FILES['image']['name']);
                 $imageType = pathinfo($file, PATHINFO_EXTENSION);

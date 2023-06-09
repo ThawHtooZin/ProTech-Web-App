@@ -28,10 +28,12 @@ include 'config/connect.php';
     $stmt = $pdo->prepare("SELECT * FROM course WHERE id=$id");
     $stmt->execute();
     $data = $stmt->fetch(PDO::FETCH_ASSOC);
+    if(!empty($_SESSION['username'])){
     $username = $_SESSION['username'];
     $ownedcourse = $pdo->prepare("SELECT * FROM user_courses WHERE username='$username'");
     $ownedcourse->execute();
     $ocdata = $ownedcourse->fetch(PDO::FETCH_ASSOC);
+  }
     ?>
     <div class="first-container">
       <h1 class="text-light text-center"><?php echo $data['name']; ?></h1>
@@ -39,19 +41,27 @@ include 'config/connect.php';
     <div class="main-container container">
       <div class="row">
         <a href="<?php
-        if($_SESSION['logged_in'] === true){
-          if(!empty($ocdata['username'])){
-            if($ocdata['course_id'] == $_GET['id']){
-                echo "course_page.php?id=". $ocdata['course_id'] ."";
+        if(!empty($_SESSION['logged_in'])){
+          if($_SESSION['logged_in'] === true){
+            if(!empty($ocdata['username'])){
+              $id = $_GET['id'];
+              $ocsstmt = $pdo->prepare("SELECT * FROM user_courses WHERE username='$username' AND course_id=$id;");
+              $ocsstmt->execute();
+              $ocsdatas = $ocsstmt->fetch(PDO::FETCH_ASSOC);
+
+              if(empty($ocsdata['username'])){
+                echo "course_page.php?id=". $_GET['id'] ."&lesson=1";
+              }else{
+                echo "buy_a_course.php?id=". $data['id'] ."";
+              }
             }else{
               echo "buy_a_course.php?id=". $data['id'] ."";
             }
-          }else{
-            echo "buy_a_course.php?id=". $data['id'] ."";
           }
         }else{
           echo "login.php";
         }
+
         ?>" class="btn btn-primary w-50 ms-auto me-auto mt-4 mb-4">Start Learning Today</a>
         <p class="text-center">PRICE : <?php echo $data['price']; ?>ks</p>
       </div>

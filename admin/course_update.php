@@ -25,33 +25,55 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <body class="hold-transition sidebar-mini">
   <?php
   if($_POST){
-    if(empty($_POST['username']) || empty($_POST['email']) || empty($_POST['password'])){
-      if(empty($_POST['username'])){
-        $usererror = true;
-      }
-      if(empty($_POST['email'])){
-        $emailerror = true;
-      }
-      if(empty($_POST['password'])){
-        $passerror = true;
+    if(!empty($_FILES['image']['name'])){
+      if(empty($_POST['name']) || empty($_POST['description']) || empty($_POST['price'])){
+        if(empty($_POST['name'])){
+          $nameerror = true;
+        }
+        if(empty($_POST['description'])){
+          $descerror = true;
+        }
+        if(empty($_POST['price'])){
+          $priceerror = true;
+        }
+      }else{
+        $name = $_POST['name'];
+        $description = $_POST['description'];
+        $price = $_POST['price'];
+        $category = $_POST['category'];
+        $file = 'images/course_images/'.($_FILES['image']['name']);
+        $imageType = pathinfo($file, PATHINFO_EXTENSION);
+        $image = $_FILES['image']['name'];
+        move_uploaded_file($_FILES['image']['tmp_name'], $file);
+        $id = $_GET['id'];
+        $stmt = $pdo->prepare("UPDATE course SET name='$name', image='$image', description='$description', price='$price', category_id='$category' WHERE id=$id");
+        $stmt->execute();
+        echo "<script>alert('Data Updated successfully'); window.location.href='course_admin.php';</script>";
       }
     }else{
-        $username = $_POST['username'];
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-        $role = $_POST['role'];
-        $id = $_GET['id'];
-        $stmt = $pdo->prepare("UPDATE users SET username='$username', password='$password', email='$email', role='$role' WHERE id=$id");
-        $data = $stmt->execute();
-        if($data){
-          echo "<script>alert('Course Updated successfully!'); window.location.href='course_admin.php';</script>";
-        }else{
-          echo "<script>alert('Sorry, there was an error!'); window.location.href='course_admin.php';</script>";
+      if(empty($_POST['name']) || empty($_POST['description']) || empty($_POST['price'])){
+        if(empty($_POST['name'])){
+          $nameerror = true;
         }
-
+        if(empty($_POST['description'])){
+          $descerror = true;
+        }
+        if(empty($_POST['price'])){
+          $priceerror = true;
+        }
+      }else{
+        $name = $_POST['name'];
+        $description = $_POST['description'];
+        $price = $_POST['price'];
+        $category = $_POST['category'];
+        $id = $_GET['id'];
+        $stmt = $pdo->prepare("UPDATE course SET name='$name', description='$description', price='$price', category_id='$category' WHERE id=$id");
+        $stmt->execute();
+        echo "<script>alert('Data Updated successfully'); window.location.href='course_admin.php';</script>";
+      }
     }
   }
-  $stmt = $pdo->prepare("SELECT * FROM users");
+  $stmt = $pdo->prepare("SELECT * FROM course");
   $stmt->execute();
   $data = $stmt->fetch(PDO::FETCH_ASSOC);
   ?>
@@ -81,26 +103,39 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </div>
         <!-- /.card-header -->
         <!-- form start -->
-          <form action="" method="post">
+          <form action="" method="post" enctype="multipart/form-data">
             <input type="hidden" name="_token" value="<?php echo $_SESSION['_token']; ?>">
             <div class="card-body">
               <div class="form-group">
-                <label for="">Username</label>
-                <input type="text" class="form-control <?php if($usererror === true){echo 'is-invalid';} ?>" placeholder="Enter Username" name="username" value="<?php echo $data['username']; ?>">
+                <label for="">Course Name</label>
+                <input type="text" class="form-control <?php if($nameerror === true){echo 'is-invalid';} ?>" placeholder="Enter Course Name" name="name" value="<?php echo $data['name']; ?>">
               </div>
               <div class="form-group">
-                <label for="">Email</label>
-                <input type="email" class="form-control <?php if($emailerror === true){echo 'is-invalid';} ?>" placeholder="Enter Email" name="email" value="<?php echo $data['email']; ?>">
+                <label for="">Course Image</label>
+                <input type="file" class="form-control" name="image" value="">
+                <img src="images/course_images/<?php echo $data['image']; ?>" alt="">
               </div>
               <div class="form-group">
-                <label for="">Password</label>
-                <input type="password" class="form-control <?php if($passerror === true){echo 'is-invalid';} ?>" placeholder="Enter Password" name="password" value="<?php echo $data['password']; ?>">
+                <label for="">Description</label>
+                <input type="text" class="form-control <?php if($descerror === true){echo 'is-invalid';} ?>" placeholder="Enter Description" name="description" value="<?php echo $data['description']; ?>">
               </div>
               <div class="form-group">
-                <label for="">Role</label>
-                <select class="form-control" name="role">
-                  <option value="admin">admin</option>
-                  <option value="user">user</option>
+                <label for="">Price</label>
+                <input type="number" class="form-control <?php if($priceerror === true){echo 'is-invalid';} ?>" placeholder="Enter Price" name="price" value="<?php echo $data['price']; ?>">
+              </div>
+              <div class="form-group">
+                <label for="">Category</label>
+                <select class="form-control" name="category">
+                  <?php
+                  $stmt = $pdo->prepare("SELECT * FROM course_category");
+                  $stmt->execute();
+                  $cdatas = $stmt->fetchall();
+                  foreach ($cdatas as $cdata) {
+                    ?>
+                    <option value="<?php echo $cdata['id']; ?>"><?php echo $cdata['category_name']; ?></option>
+                    <?php
+                  }
+                  ?>
                 </select>
               </div>
             </div>
