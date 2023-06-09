@@ -91,7 +91,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </div>
         <!-- /.card-header -->
         <!-- form start -->
-        <form action="" method="post">
+        <form action="" method="post" enctype="multipart/form-data">
           <input type="hidden" name="_token" value="<?php echo $_SESSION['_token']; ?>">
           <div class="card-body">
             <div class="form-group">
