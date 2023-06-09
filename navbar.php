@@ -4,13 +4,16 @@
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" style="margin-left:1000px;" id="navbarSupportedContent">
+    <div class="collapse navbar-collapse" style="margin-left:900px;" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link" href="Index.php">Home</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="course.php">Cources</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="blog.php">Blog</a>
         </li>
         <?php
 

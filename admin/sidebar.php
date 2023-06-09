@@ -90,6 +90,14 @@
             </p>
           </a>
         </li>
+        <li class="nav-item">
+          <a href="blog_admin.php" class="nav-link">
+            <i class="bi bi-newspaper"></i>
+            <p>
+              Blog
+            </p>
+          </a>
+        </li>
       </ul>
     </nav>
     <!-- /.sidebar-menu -->
