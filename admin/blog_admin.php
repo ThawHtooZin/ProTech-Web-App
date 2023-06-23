@@ -55,6 +55,8 @@
                 <th scope="col">Name</th>
                 <th scope="col">Description</th>
                 <th scope="col">Main Content</th>
+                <th scope="col">Image</th>
+                <th scope="col">Category</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
@@ -67,33 +69,25 @@
                 <th><?php echo $data['title']; ?></th>
                 <th><?php echo $data['description']; ?></th>
                 <th>
-                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#model">
-                    View Main Content
-                  </button>
+                  <form action="blog_detail.php?id=<?php echo $data['id']; ?>&row=main_content" method="post">
+                    <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#model">
+                      View Main Content
+                    </button>
+                  </form>
                 </th>
+                <th>
+                  <form action="blog_detail.php?id=<?php echo $data['id']; ?>&row=image" method="post">
+                    <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#model2">
+                      View Image
+                    </button>
+                  </form>
+                </th>
+                <th><?php echo $data['category']; ?></th>
                 <th>
                   <a href="blog_update.php?id=<?php echo $data['id']; ?>" class="btn btn-warning">Update</a>
                   <a href="blog_delete.php?id=<?php echo $data['id']; ?>" class="btn btn-danger">Delete</a>
                 </th>
               </tr>
-              <div class="modal" id="model">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title">Main Content</h5>
-                      <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-bs-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div class="modal-body">
-                      <?php echo $data['main_content']; ?>
-                    </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
               <?php
             }
             ?>
@@ -103,6 +97,16 @@
       </div>
       <!-- /.content -->
     </div>
+    <?php
+    if($_POST){
+      $id = $_GET['id'];
+      $stmt = $pdo->prepare("SELECT * FROM blog WHERE id='$id'");
+      $stmt->execute();
+      $data2 = $stmt->fetch(PDO::FETCH_ASSOC);
+      ?>
+      <?php
+    }
+     ?>
     <!-- /.content-wrapper -->
     <!-- jQuery -->
     <script src="plugins/jquery/jquery.min.js"></script>

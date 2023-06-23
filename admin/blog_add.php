@@ -36,10 +36,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
         $mcerror = true;
       }
     }else{
+        $file = 'images/blog_images/'.($_FILES['image']['name']);
+        $image = $_FILES['image']['name'];
+        move_uploaded_file($_FILES['image']['tmp_name'], $file);
         $title = $_POST['title'];
         $description = $_POST['description'];
+        $category = $_POST['category'];
         $main_content = $_POST['main_content'];
-        $stmt = $pdo->prepare("INSERT INTO blog(title, description, main_content) VALUES('$title','$description','$main_content')");
+        $stmt = $pdo->prepare("INSERT INTO blog(title, description, image, category, main_content) VALUES('$title','$description','$image','$category','$main_content')");
         $data = $stmt->execute();
         if($data){
           echo "<script>alert('Blog created successfully!'); window.location.href='blog_admin.php';</script>";
@@ -76,14 +80,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </div>
         <!-- /.card-header -->
         <!-- form start -->
-          <form action="blog_add.php" method="post">
+          <form action="blog_add.php" method="post" enctype="multipart/form-data">
             <input type="hidden" name="_token" value="<?php echo $_SESSION['_token']; ?>">
             <div class="card-body">
               <div class="form-group">
                 <label for="">Title</label>
-                <input type="text" class="form-control <?php if($nameerror === true){echo 'is-invalid';} ?>" placeholder="Enter Title" name="title">
+                <input type="text" class="form-control <?php if($titleerror === true){echo 'is-invalid';} ?>" placeholder="Enter Title" name="title">
                 <label for="">Description</label>
                 <input type="text" class="form-control <?php if($descerror === true){echo 'is-invalid';} ?>" placeholder="Enter Description" name="description">
+                <label for="">Image</label>
+                <input type="file" class="form-control" placeholder="Select Image" name="image">
+                <label for="">Category</label>
+                <select class="form-control" name="category">
+                  <option value="general">General</option>
+                  <option value="career">Career</option>
+                  <option value="database">Database</option>
+                  <option value="sever">Sever</option>
+                  <option value="designpattern">Design Pattern</option>
+                </select>
                 <label for="">Main Content</label>
                 <textarea  class="form-control <?php if($descerror === true){echo 'is-invalid';} ?>" name="main_content" rows="5" cols="80" placeholder="Enter Your Main Content"></textarea>
               </div>
