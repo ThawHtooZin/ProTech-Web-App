@@ -29,6 +29,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
 </head>
 <body class="hold-transition sidebar-mini">
   <?php
+  $userstmt = $pdo->prepare("SELECT COUNT(*) FROM users");
+  $userstmt->execute();
+  $usercount = $userstmt->fetchColumn();
+
+  $lessonstmt = $pdo->prepare("SELECT COUNT(*) FROM lessons");
+  $lessonstmt->execute();
+  $lessoncount = $lessonstmt->fetchColumn();
+
+  $blogstmt = $pdo->prepare("SELECT COUNT(*) FROM blog");
+  $blogstmt->execute();
+  $blogcount = $blogstmt->fetchColumn();
+
+  $coursestmt = $pdo->prepare("SELECT COUNT(*) FROM course");
+  $coursestmt->execute();
+  $coursecount = $coursestmt->fetchColumn();
+
+  $orderstmt = $pdo->prepare("SELECT COUNT(*) FROM course_order");
+  $orderstmt->execute();
+  $ordercount = $orderstmt->fetchColumn();
 
   ?>
 <div class="wrapper">
@@ -72,7 +91,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <div class="inner">
                 <div class="row">
                   <div class="col-9">
-                    <h3></h3>
+                    <h3><?php echo $usercount; ?></h3>
                     <p>Users</p>
                   </div>
                   <div class="col-3">
@@ -95,8 +114,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <div class="inner">
                 <div class="row">
                   <div class="col-9">
-                    <h3></h3>
-                    <p>Courses</p>
+                    <h3><?php echo $lessoncount; ?></h3>
+                    <p>Lessons</p>
                   </div>
                   <div class="col-3">
                     <div style="font-size:50px;">
@@ -118,7 +137,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <div class="inner">
                 <div class="row">
                   <div class="col-9">
-                    <h3></h3>
+                    <h3><?php echo $blogcount; ?></h3>
                     <p>Blog</p>
                   </div>
                   <div class="col-3">
@@ -141,12 +160,35 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <div class="inner">
                 <div class="row">
                   <div class="col-9">
-                    <h3></h3>
-                    <p>Articles</p>
+                    <h3><?php echo $coursecount; ?></h3>
+                    <p>Course</p>
                   </div>
                   <div class="col-3">
                     <div style="font-size:50px;">
                       <i class="bi bi-book"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="icon">
+                <i class="ion ion-pie-graph"></i>
+              </div>
+              <a href="order_admin.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-danger">
+              <div class="inner">
+                <div class="row">
+                  <div class="col-9">
+                    <h3><?php echo $ordercount; ?></h3>
+                    <p>Order</p>
+                  </div>
+                  <div class="col-3">
+                    <div style="font-size:50px;">
+                      <i class="bi bi-cart"></i>
                     </div>
                   </div>
                 </div>
