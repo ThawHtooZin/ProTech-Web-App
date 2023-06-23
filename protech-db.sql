@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.3
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 09, 2023 at 10:56 AM
+-- Generation Time: Jun 23, 2023 at 11:28 AM
 -- Server version: 10.4.24-MariaDB
--- PHP Version: 7.4.29
+-- PHP Version: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,26 @@ SET time_zone = "+00:00";
 --
 -- Database: `protech-db`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `blog`
+--
+
+CREATE TABLE `blog` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `description` text COLLATE utf8_unicode_ci NOT NULL,
+  `main_content` text COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `blog`
+--
+
+INSERT INTO `blog` (`id`, `title`, `description`, `main_content`) VALUES
+(0, 'How to become a Web Developer.', 'this is a blog for peoples who are willing to become a Web Developer', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.');
 
 -- --------------------------------------------------------
 
@@ -123,10 +143,10 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `username`, `password`, `email`, `role`) VALUES
 (1, 'Thaw Htoo Zin', 'thawhtoozin', 'thawhtoozin@gmail.com', 'admin'),
 (2, 'Tommy', 'tommy', 'tommy@gmail.com', 'user'),
-(3, 'U Zin', 'uzin', 'uzin@gmail.com', ''),
-(4, 'Ko Lin', 'kolin', 'kolin@gmail.com', ''),
-(5, 'Moe Moe', 'moemoe', 'moemoe@gmail.com', ''),
-(6, 'Mg Mg', 'mgmg', 'mgmg@gmail.com', '');
+(3, 'Thaw Htoo Zin', 'thawhtoozin', 'thawhtoozin@gmail.com', 'user'),
+(4, 'Thaw Htoo Zin', 'thawhtoozin', 'thawhtoozin@gmail.com', 'user'),
+(5, 'Thaw Htoo Zin', 'thawhtoozin', 'thawhtoozin@gmail.com', 'user'),
+(6, 'Thaw Htoo Zin', 'thawhtoozin', 'thawhtoozin@gmail.com', 'user');
 
 -- --------------------------------------------------------
 
