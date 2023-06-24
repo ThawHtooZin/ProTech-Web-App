@@ -2,6 +2,21 @@
 session_start();
 include 'config/connect.php';
 ?>
+<?php
+
+if(!empty($_POST['search'])){
+  if($_POST['search']){
+    setcookie('search', $_POST['search'], time() + (87400 * 36), "/");
+  }
+}
+else{
+  if(empty($_GET['pageno'])){
+    unset($_COOKIE['search']);
+    setcookie('search', null, -1, "/");
+  }
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -31,13 +46,13 @@ include 'config/connect.php';
         <br>
         <div class="row">
           <?php
-          $stmt = $pdo->prepare("SELECT * FROM course");
+          $stmt = $pdo->prepare("SELECT * FROM course LIMIT 3");
           $stmt->execute();
           $datas = $stmt->fetchall();
           foreach ($datas as $data) {
           ?>
           <!-- card -->
-          <div class="card text-center" style="width:33%;">
+          <div class="card text-center" style="width:31.5%; padding:0px 0px; margin-left:10px; margin-right:10px;">
             <div class="card-header">
               <h3><?php echo $data['name']; ?></h3>
             </div>
@@ -55,13 +70,14 @@ include 'config/connect.php';
           }
           ?>
         </div>
-
+        
         <br><br><br>
         <div class="text-center">
           <a href="course.php" class="btn btn-primary w-50 ">Check All Courses</a>
         </div>
       </div>
     </div>
+    <hr>
     <div class="second-container container mt-5 mb-5">
       <h1 class="text-center">What We also do</h1>
       <div class="container">

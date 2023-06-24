@@ -2,6 +2,21 @@
 session_start();
 include 'config/connect.php';
  ?>
+ <?php
+
+ if(!empty($_POST['search'])){
+   if($_POST['search']){
+     setcookie('search', $_POST['search'], time() + (87400 * 36), "/");
+   }
+ }
+ else{
+   if(empty($_GET['pageno'])){
+     unset($_COOKIE['search']);
+     setcookie('search', null, -1, "/");
+   }
+ }
+
+ ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
@@ -55,6 +70,14 @@ include 'config/connect.php';
     </div>
     <div class="main-container container">
       <div class="container mt-5 mb-5">
+        <form action="blog.php" method="post">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Search For A Blog" name="search">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="submit">Search</button>
+            </div>
+          </div>
+        </form>
         <div class="row">
             <a href="blog.php?category=general" class="col cat-box" style="background-image: url('Image/general.jpg'); background-size:contain; background-position:center; background-repeat:no-repeat;">
               <h5 class="text-dark">GENERAL</h5>
@@ -78,17 +101,71 @@ include 'config/connect.php';
         <br>
         <div class="row ms-auto me-auto">
           <?php
+          if(!empty($_GET['pageno'])){
+            $pageno = $_GET['pageno'];
+          }else{
+            $pageno = 1;
+          }
+          $numOfrecs = 1;
+          $offset = ($pageno -1) * $numOfrecs;
           if(empty($_GET['category'])){
-            $stmt = $pdo->prepare("SELECT * FROM blog");
-            $stmt->execute();
-            $datas = $stmt->fetchall();
+            if(empty($_POST['search']) && empty($_COOKIE['search'])){
+              $stmt = $pdo->prepare("SELECT * FROM blog ORDER BY id DESC");
+              $stmt->execute();
+              $rawResult = $stmt->fetchall();
+              $total_pages = ceil(count($rawResult) / $numOfrecs);
+
+              $stmt = $pdo->prepare("SELECT * FROM blog ORDER BY id DESC LIMIT $offset,$numOfrecs");
+              $stmt->execute();
+              $result = $stmt->fetchall();
+            }else{
+              if(!empty($_POST['search'])){
+                $searchkey = $_POST['search'];
+              }else{
+                $searchkey = $_COOKIE['search'];
+              }
+
+              $stmt = $pdo->prepare("SELECT * FROM blog WHERE description LIKE '%$searchkey%' ORDER BY id DESC");
+              $stmt->execute();
+              $rawResult = $stmt->fetchall();
+              $total_pages = ceil(count($rawResult) / $numOfrecs);
+
+              $stmt = $pdo->prepare("SELECT * FROM blog WHERE description LIKE '%$searchkey%' ORDER BY id DESC LIMIT $offset,$numOfrecs");
+              $stmt->execute();
+              $result = $stmt->fetchAll();
+            }
           }else{
             $category = $_GET['category'];
-            $stmt = $pdo->prepare("SELECT * FROM blog WHERE category='$category'");
-            $stmt->execute();
-            $datas = $stmt->fetchall();
+
+            if(empty($_POST['search']) && empty($_COOKIE['search'])){
+              $stmt = $pdo->prepare("SELECT * FROM blog WHERE category='$category' ORDER BY id DESC ");
+              $stmt->execute();
+              $rawResult = $stmt->fetchall();
+              $total_pages = ceil(count($rawResult) / $numOfrecs);
+
+              $stmt = $pdo->prepare("SELECT * FROM blog WHERE category='$category' ORDER BY id DESC LIMIT $offset,$numOfrecs ");
+              $stmt->execute();
+              $result = $stmt->fetchall();
+            }else{
+              if(!empty($_POST['search'])){
+                $searchkey = $_POST['search'];
+              }else{
+                $searchkey = $_COOKIE['search'];
+              }
+
+              $stmt = $pdo->prepare("SELECT * FROM blog WHERE category='$category' AND description LIKE '%$searchkey%'  ORDER BY id DESC");
+              $stmt->execute();
+              $rawResult = $stmt->fetchall();
+              $total_pages = ceil(count($rawResult) / $numOfrecs);
+
+              $stmt = $pdo->prepare("SELECT * FROM blog WHERE category='$category' AND description LIKE '%$searchkey%' ORDER BY id DESC LIMIT $offset,$numOfrecs");
+              $stmt->execute();
+              $result = $stmt->fetchAll();
+            }
           }
-          foreach ($datas as $data) {
+          if($result){
+            $i = 1;
+            foreach ($result as $data) {
           ?>
           <a href="blog_detail.php?title=<?php echo $data['title']; ?>" style="margin-left: 5px; width:32%; text-decoration:none;" class="mb-3">
             <div class="card">
@@ -102,9 +179,43 @@ include 'config/connect.php';
             </div>
           </a>
           <?php
-          }
+          $i++;
+        }
+      }
           ?>
         </div>
+        <ul class="pagination float-end">
+          <li class="page-item"><a class="page-link" href="?pageno=1">First</a></li>
+          <li class="page-item <?php if($pageno <= 1){echo 'disabled';} ?>">
+            <?php
+            if(!empty($_GET['category'])){
+              ?>
+              <a class="page-link" href="<?php if($pageno <= 1){echo '#';} else {echo "?pageno=".($pageno-1) . "&category=".$_GET['category'];} ?>">Previous</a>
+              <?php
+            }else{
+              ?>
+              <a class="page-link" href="<?php if($pageno <= 1){echo '#';} else {echo "?pageno=".($pageno-1);} ?>">Previous</a>
+              <?php
+            }
+             ?>
+          </li>
+          <li class="page-item"><a class="page-link" href="#"><?php echo $pageno; ?></a></li>
+          <li class="page-item <?php if($pageno >= $total_pages){echo 'disabled';}; ?>">
+            <?php
+            if(!empty($_GET['category'])){
+            ?>
+            <a class="page-link" href="<?php if($pageno >= $total_pages){echo '#';}else{echo "?pageno=".($pageno+1) . "&category=".$_GET['category'];} ?>">Next</a>
+            <?php
+            }else{
+            ?>
+            <a class="page-link" href="<?php if($pageno >= $total_pages){echo '#';}else{echo "?pageno=".($pageno+1);} ?>">Next</a>
+
+            <?php
+            }
+             ?>
+          </li>
+          <li class="page-item"><a class="page-link" href="?pageno=<?php echo $total_pages; ?>">Last</a> </li>
+        </ul>
       </div>
     </div>
     <?php include 'footer.php'; ?>

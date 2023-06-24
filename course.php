@@ -2,6 +2,22 @@
 session_start();
 include 'config/connect.php';
  ?>
+
+ <?php
+
+ if(!empty($_POST['search'])){
+   if($_POST['search']){
+     setcookie('search', $_POST['search'], time() + (87400 * 36), "/");
+   }
+ }
+ else{
+   if(empty($_GET['pageno'])){
+     unset($_COOKIE['search']);
+     setcookie('search', null, -1, "/");
+   }
+ }
+
+ ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
@@ -21,28 +37,84 @@ include 'config/connect.php';
     }
   </style>
   <body>
+    <?php
+    if($_POST){
+      $search = $_POST['search'];
+      $stmt = $pdo->prepare("SELECT * FROM course WHERE name LIKE '%$search%'");
+      $stmt->execute();
+      $datas = $stmt->fetchall();
+    }else{
+      $stmt = $pdo->prepare("SELECT * FROM course");
+      $stmt->execute();
+      $datas = $stmt->fetchall();
+    }
+
+
+     ?>
     <?php include 'navbar.php'; ?>
     <div class="first-container">
       <h1 class="text-light text-center">Course</h1>
     </div>
+    <?php
+    if(!empty($_GET['pageno'])){
+      $pageno = $_GET['pageno'];
+    }else{
+      $pageno = 1;
+    }
+    $numOfrecs = 12;
+    $offset = ($pageno -1) * $numOfrecs;
+
+    if(empty($_POST['search']) && empty($_COOKIE['search'])){
+      $stmt = $pdo->prepare("SELECT * FROM course ORDER BY id DESC");
+      $stmt->execute();
+      $rawResult = $stmt->fetchall();
+      $total_pages = ceil(count($rawResult) / $numOfrecs);
+
+      $stmt = $pdo->prepare("SELECT * FROM course ORDER BY id DESC LIMIT $offset,$numOfrecs");
+      $stmt->execute();
+      $result = $stmt->fetchall();
+    }else{
+      if(!empty($_POST['search'])){
+        $searchkey = $_POST['search'];
+      }else{
+        $searchkey = $_COOKIE['search'];
+      }
+
+      $stmt = $pdo->prepare("SELECT * FROM course WHERE name LIKE '%$searchkey%' ORDER BY id DESC");
+      $stmt->execute();
+      $rawResult = $stmt->fetchall();
+      $total_pages = ceil(count($rawResult) / $numOfrecs);
+
+      $stmt = $pdo->prepare("SELECT * FROM course WHERE name LIKE '%$searchkey%' ORDER BY id DESC LIMIT $offset,$numOfrecs");
+      $stmt->execute();
+      $result = $stmt->fetchAll();
+    }
+     ?>
     <div class="main-container container">
       <div class="container mt-5 mb-5">
         <h1 class="text-center">Courses</h1>
+        <form action="course.php" method="post">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Search For More Courses" name="search">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="submit">Search</button>
+            </div>
+          </div>
+        </form>
         <br>
         <div class="row">
           <?php
-          $stmt = $pdo->prepare("SELECT * FROM course");
-          $stmt->execute();
-          $datas = $stmt->fetchall();
-          foreach ($datas as $data) {
+          if($result){
+            $i = 1;
+            foreach ($result as $data) {
           ?>
           <!-- card -->
-          <div class="card text-center" style="width:33%;">
+          <div class="card text-center" style="width:31.5%; padding:0px 0px; margin-left:10px; margin-right:10px;">
             <div class="card-header">
               <h3><?php echo $data['name']; ?></h3>
             </div>
             <div class="card-body">
-              <img src="image/datas/basic_course.jpg" alt="" width="100%"><br><br>
+              <img src="admin/images/course_images/<?php echo $data['image']; ?>" alt="" width="100%"><br><br>
               <p>Description: <?php echo $data['description']; ?></p>
               <p>Price : <?php echo $data['price']; ?></p>
             </div>
@@ -52,13 +124,22 @@ include 'config/connect.php';
           </div>
           <!-- card -->
           <?php
-          }
+          $i++;
+        }
+      }
           ?>
         </div>
-        <br><br><br>
-        <div class="text-center">
-          <a href="course.php" class="btn btn-primary w-50 ">Check All Courses</a>
-        </div>
+        <ul class="pagination float-end">
+          <li class="page-item"><a class="page-link" href="?pageno=1">First</a></li>
+          <li class="page-item <?php if($pageno <= 1){echo 'disabled';} ?>">
+            <a class="page-link" href="<?php if($pageno <= 1){echo '#';} else {echo "?pageno=".($pageno-1);} ?>">Previous</a>
+          </li>
+          <li class="page-item"><a class="page-link" href="#"><?php echo $pageno; ?></a></li>
+          <li class="page-item <?php if($pageno >= $total_pages){echo 'disabled';}; ?>">
+            <a class="page-link" href="<?php if($pageno >= $total_pages){echo '#';}else{echo "?pageno=".($pageno+1);} ?>">Next</a>
+          </li>
+          <li class="page-item"><a class="page-link" href="?pageno=<?php echo $total_pages; ?>">Last</a> </li>
+        </ul>
       </div>
     </div>
     <?php include 'footer.php'; ?>
