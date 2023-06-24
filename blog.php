@@ -56,34 +56,41 @@ include 'config/connect.php';
     <div class="main-container container">
       <div class="container mt-5 mb-5">
         <div class="row">
-            <a href="" class="col cat-box" style="background-image: url('Image/general.jpg'); background-size:contain; background-position:center; background-repeat:no-repeat;">
+            <a href="blog.php?category=general" class="col cat-box" style="background-image: url('Image/general.jpg'); background-size:contain; background-position:center; background-repeat:no-repeat;">
               <h5 class="text-dark">GENERAL</h5>
             </a>
-            <a href="" class="col cat-box" style="background-image: url('Image/carrer.jpg'); background-size:contain; background-position:center; background-repeat:no-repeat;">
+            <a href="blog.php?category=career" class="col cat-box" style="background-image: url('Image/carrer.jpg'); background-size:contain; background-position:center; background-repeat:no-repeat;">
               <h5 class="text-light">CAREER</h5>
             </a>
-            <a href="" class="col cat-box" style="background-image: url('Image/database.jpg'); background-size:contain; background-position:center; background-repeat:no-repeat;">
+            <a href="blog.php?category=database" class="col cat-box" style="background-image: url('Image/database.jpg'); background-size:contain; background-position:center; background-repeat:no-repeat;">
               <h5 class="text-success">DATABASE</h5>
             </a>
-            <a href="" class="col cat-box" style="background-image: url('Image/server.jpg'); background-size:contain; background-position:center; background-repeat:no-repeat;">
+            <a href="blog.php?category=server" class="col cat-box" style="background-image: url('Image/server.jpg'); background-size:contain; background-position:center; background-repeat:no-repeat;">
               <h5 class="text-warning">SERVER</h5>
             </a>
-            <a href="" class="col cat-box" style="background-image: url('Image/design.jpg'); background-size:contain; background-position:center; background-repeat:no-repeat;">
+            <a href="blog.php?category=designpattern" class="col cat-box" style="background-image: url('Image/design.jpg'); background-size:contain; background-position:center; background-repeat:no-repeat;">
               <h5 class="text-danger">DESIGN PATTERN</h5>
             </a>
-            <a href="" class="col cat-box" style="background-image: url('image/softskill.jpg'); background-size:contain; background-position:center; background-repeat:no-repeat;">
+            <a href="blog.php?category=softskill" class="col cat-box" style="background-image: url('image/softskill.jpg'); background-size:contain; background-position:center; background-repeat:no-repeat;">
               <h5>SOFT SKILL</h5>
             </a>
         </div>
         <br>
         <div class="row ms-auto me-auto">
           <?php
-          $stmt = $pdo->prepare("SELECT * FROM blog");
-          $stmt->execute();
-          $datas = $stmt->fetchall();
+          if(empty($_GET['category'])){
+            $stmt = $pdo->prepare("SELECT * FROM blog");
+            $stmt->execute();
+            $datas = $stmt->fetchall();
+          }else{
+            $category = $_GET['category'];
+            $stmt = $pdo->prepare("SELECT * FROM blog WHERE category='$category'");
+            $stmt->execute();
+            $datas = $stmt->fetchall();
+          }
           foreach ($datas as $data) {
           ?>
-          <a href="blog-detail.php?id=<?php echo $data['id']; ?>" style="margin-left: 5px; width:32%; text-decoration:none;" class="mb-3">
+          <a href="blog_detail.php?title=<?php echo $data['title']; ?>" style="margin-left: 5px; width:32%; text-decoration:none;" class="mb-3">
             <div class="card">
               <div class="card-header">
                 <img src="admin/images/blog_images/<?php echo $data['image']; ?>" alt="" width="100%">
