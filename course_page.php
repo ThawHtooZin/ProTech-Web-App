@@ -31,9 +31,9 @@ include 'config/connect.php';
     <div class="first-container">
       <h1 class="text-light text-center"><?php echo $data['name']; ?></h1>
     </div>
-    <div class="main-container container pt-5 pb-5">
+    <div class="main-container container">
       <div class="row">
-        <div class="col-9">
+        <div class="col-9 pt-5 pb-5 pe-5">
           <?php
           $lessonid = $_GET['lesson'];
           $stmtlesson = $pdo->prepare("SELECT * FROM lessons WHERE id=$lessonid");
@@ -44,7 +44,7 @@ include 'config/connect.php';
           if(!empty($lessondatas['lesson_name'])){
             ?>
             <h1><?php echo $lessondatas['lesson_name']; ?></h1>
-            <video width="320" height="240" controls>
+            <video width="100%" controls>
               <source src="admin/Videos/<?php echo $lessondatas['lesson_video_url']; ?>" type="video/mp4">
             </video>
             <p><?php echo $lessondatas['description']; ?></p>
@@ -57,29 +57,26 @@ include 'config/connect.php';
           }
           ?>
         </div>
-        <div class="col-3" style="border-left:20px solid gray;">
+        <div class="col-3 pt-5" style="box-shadow: -20px 0px 10px -10px #888888;">
           <h2>Lessons</h2>
-          <br><br>
+          <div class="list-group">
           <?php
           $id= $_GET['id'];
+          $lesson = $_GET['lesson'];
           $stmt = $pdo->prepare("SELECT * FROM lessons WHERE course_id=$id");
           $stmt->execute();
           $datas = $stmt->fetchall();
           foreach ($datas as $data) {
             ?>
-            <a href="course_page.php?id=<?php echo $id; ?>&lesson=<?php echo $data['id']; ?>"><?php echo $data['lesson_name']; ?></a>
-            <hr>
+            <a href="course_page.php?id=<?php echo $id; ?>&lesson=<?php echo $data['id']; ?>" class="list-group-item list-group-item-action <?php if($data['id'] == $lesson){echo "active";} ?>"><?php echo $data['lesson_name']; ?></a>
             <?php
           }
           ?>
         </div>
+        </div>
       </div>
     </div>
-    <div class="text-center footer bg-primary pt-5 pb-5">
-      <h1>ProTech</h1>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,</p>
-      <a href="about.php" class="text-light">About us</a>
-    </div>
+    <?php include 'footer.php'; ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
   </body>
 </html>
