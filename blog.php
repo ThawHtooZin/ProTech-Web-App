@@ -106,7 +106,7 @@ include 'config/connect.php';
           }else{
             $pageno = 1;
           }
-          $numOfrecs = 1;
+          $numOfrecs = 15;
           $offset = ($pageno -1) * $numOfrecs;
           if(empty($_GET['category'])){
             if(empty($_POST['search']) && empty($_COOKIE['search'])){

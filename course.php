@@ -92,7 +92,6 @@ include 'config/connect.php';
      ?>
     <div class="main-container container">
       <div class="container mt-5 mb-5">
-        <h1 class="text-center">Courses</h1>
         <form action="course.php" method="post">
           <div class="input-group mb-3">
             <input type="text" class="form-control" placeholder="Search For More Courses" name="search">
@@ -107,19 +106,24 @@ include 'config/connect.php';
           if($result){
             $i = 1;
             foreach ($result as $data) {
+            $id = $data['category_id'];
+            $stmt = $pdo->prepare("SELECT * FROM course_category WHERE id=$id");
+            $stmt->execute();
+            $cat = $stmt->fetch(PDO::FETCH_ASSOC);
           ?>
           <!-- card -->
-          <div class="card text-center" style="width:31.5%; padding:0px 0px; margin-left:10px; margin-right:10px;">
+          <div class="card" style="width:31.5%; padding:0px 0px; margin-left:10px; margin-right:10px;">
             <div class="card-header">
-              <h3><?php echo $data['name']; ?></h3>
+              <img src="admin/images/course_images/<?php echo $data['image']; ?>" alt="" style="margin:-8px -16px; width:108.7%; border-top-left-radius:5px; border-top-right-radius:5px; margin-bottom:-32px;" width="100%"><br><br>
             </div>
-            <div class="card-body">
-              <img src="admin/images/course_images/<?php echo $data['image']; ?>" alt="" width="100%"><br><br>
+            <div class="card-body text-secondary">
+              <h3 class="text-dark"><?php echo $data['name']; ?></h3>
+              <p>#<?php echo $cat['category_name']; ?></p>
               <p>Description: <?php echo $data['description']; ?></p>
-              <p>Price : <?php echo $data['price']; ?></p>
             </div>
             <div class="card-footer">
-              <a href="course_detail.php?id=<?php echo $data['id']; ?>" class="btn btn-success">Check More</a>
+              <p class="d-inline">Price : <?php echo $data['price']; ?>ks</p>
+              <a href="course_detail.php?id=<?php echo $data['id']; ?>" class="btn btn-success float-end">Check More</a>
             </div>
           </div>
           <!-- card -->

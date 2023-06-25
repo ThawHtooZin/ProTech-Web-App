@@ -50,19 +50,24 @@ else{
           $stmt->execute();
           $datas = $stmt->fetchall();
           foreach ($datas as $data) {
+            $id = $data['category_id'];
+            $stmt = $pdo->prepare("SELECT * FROM course_category WHERE id=$id");
+            $stmt->execute();
+            $cat = $stmt->fetch(PDO::FETCH_ASSOC);
           ?>
           <!-- card -->
-          <div class="card text-center" style="width:31.5%; padding:0px 0px; margin-left:10px; margin-right:10px;">
+          <div class="card" style="width:31.5%; padding:0px 0px; margin-left:10px; margin-right:10px;">
             <div class="card-header">
-              <h3><?php echo $data['name']; ?></h3>
+              <img src="admin/images/course_images/<?php echo $data['image']; ?>" alt="" style="margin:-8px -16px; width:108.7%; border-top-left-radius:5px; border-top-right-radius:5px; margin-bottom:-32px;" width="100%"><br><br>
             </div>
-            <div class="card-body">
-              <img src="admin/images/course_images/<?php echo $data['image']; ?>" alt="" width="100%"><br><br>
+            <div class="card-body text-secondary">
+              <h3 class="text-dark"><?php echo $data['name']; ?></h3>
+              <p>#<?php echo $cat['category_name']; ?></p>
               <p>Description: <?php echo $data['description']; ?></p>
-              <p>Price : <?php echo $data['price']; ?></p>
             </div>
             <div class="card-footer">
-              <a href="course_detail.php?id=<?php echo $data['id']; ?>" class="btn btn-success">Check More</a>
+              <p class="d-inline">Price : <?php echo $data['price']; ?>ks</p>
+              <a href="course_detail.php?id=<?php echo $data['id']; ?>" class="btn btn-success float-end">Check More</a>
             </div>
           </div>
           <!-- card -->
@@ -70,7 +75,7 @@ else{
           }
           ?>
         </div>
-        
+
         <br><br><br>
         <div class="text-center">
           <a href="course.php" class="btn btn-primary w-50 ">Check All Courses</a>
@@ -81,13 +86,12 @@ else{
     <div class="second-container container mt-5 mb-5">
       <h1 class="text-center">What We also do</h1>
       <div class="container">
-        <h1 class="text-center">Blogs</h1>
         <div class="text-center">
           <img src="image/articleimg.jpg" alt="" width="50%">
         </div>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
         <div class="text-center">
-          <a href="blog.php" class="btn btn-primary w-50">See More</a>
+          <a href="blog.php" class="btn btn-primary w-50">Blogs</a>
         </div>
       </div>
     </div>
